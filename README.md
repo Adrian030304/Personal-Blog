@@ -1,2 +1,2 @@
 # Personal-Blog
-A personal blog made in Python with Flask used to create and edit articles following CRUD methodologies
+A simple personal blog built with Python and Flask. You can create, edit, and delete articles using easy CRUD operations.
