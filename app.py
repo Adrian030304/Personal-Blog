@@ -20,8 +20,7 @@ def home_page():
         return redirect(url_for('login_user')), 200
     user = session.get('username')
     user_role = session.get('role')
-    context={'user': user, 'role':user_role}
-    return render_template('main_page.html', context=context), 200
+    return render_template('main_page.html', user, user_role), 200
 
 @app.route('/blogs')
 def blogs_page():

@@ -10,11 +10,13 @@
     <div id="header">
         <div class="section">
             <p class="blog-page">Personal Blog</p>
+            {% if session %}
             <p class="blog-page">Home</p>
             <p class="blog-page">Articles</p>
-            <p class="blog-page">User:<span id="usr-lg">{{context['user']}}</span></p>
-            <p class="blog-page">Role:<span id="role-lg">{{context['role']}}</span></p>
+            <p class="blog-page">User:<span id="usr-lg">{{user}}</span></p>
+            <p class="blog-page">Role:<span id="role-lg">{{role}}</span></p>
             <a href="{{ url_for('logout') }}" class="blog-page">Log out</a>
+            {% endif %}
         </div>
     </div>
     <div id="content">
