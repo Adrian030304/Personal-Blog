@@ -1,0 +1,69 @@
+* {
+    border: 0;
+    box-sizing:border-box;
+    margin: 0;
+}
+
+#content {
+    height: 80vh;
+    background-color:antiquewhite;
+}
+
+
+
+
+#header {
+    height: 10vh;
+    background-color: blanchedalmond;
+    width: 100%;
+    border: 1px solid black;
+}
+
+.section {
+    background-color: rgb(255, 168, 62);
+    width: max-content;
+    height: 100%;
+    display: flex;
+}
+
+.blog-page {
+    align-self: center;
+    padding: 0 20px 0 20px;
+}
+
+.footer {
+    background: blanchedalmond;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    border: #333 solid 1px;
+}
+
+.footer nav a,
+.footer a {
+    margin: 0 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.footer nav a:hover,
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer .subscribe {
+    margin-top: 15px;
+}
+
+.footer .subscribe input[type="email"] {
+    padding: 5px;
+    width: 200px;
+    max-width: 80%;
+}
+
+.footer .subscribe button {
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
