@@ -1,10 +1,9 @@
 {% extends "main_page.html" %}
 {% block content %}
-    <p> Here are the blogs on the Page </p>
     <span>This is the registration page</span>
-    <form action="/login">
+    <form method="POST">
         <input type="text" name="username" id="user_registration">
         <input type="text" name="password" id="pass_registration">
-        <input type="submit" value="login">
+        <input type="submit" value="Register">
     </form>
 {% endblock %}

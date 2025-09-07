@@ -20,8 +20,8 @@
 }
 
 .section {
-    background-color: rgb(255, 168, 62);
-    width: max-content;
+    background-color: rgb(253, 191, 116);
+    width: 85%;
     height: 100%;
     display: flex;
 }
@@ -29,6 +29,9 @@
 .blog-page {
     align-self: center;
     padding: 0 20px 0 20px;
+    font-size: 25px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
 }
 
 .footer {

@@ -1,15 +1,12 @@
-from flask import Flask, request, render_template
-from markupsafe import escape
-
+import os, json
+from flask import Flask, request, render_template, session, redirect, url_for, Response
+from dotenv  import *
+from utils import check_auth, authenticate
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
 
-
-
-users = {}
-is_admin = False
-
+secret_key = get_key('.env','FLASK_SECRET_KEY')
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
@@ -23,24 +20,24 @@ def blogs_page():
 
 @app.route('/login',  methods=['GET','POST'])
 def login_user():
-    username = request.args.get('username')
-    password = request.args.get('password')
+    # username = request.form['username']
+    # password = request.form['password']
 
-
-
-    return render_template('login.html')
+    
+    # if username not in session:
+    #     session['username'] = username
+    #     session['password'] = generate_password_hash(password)
+    #     session['is_admin'] = False
+    return render_template('login.html'), 200
 
 @app.route('/register', methods=['POST','GET'])
 def register_user():
 
-    username = request.args.get('username')
-    password = request.args.get('password')
-
-    if username in users:
-        return 'It is already existent'
-
-    if username and username == 'admin':
-        is_admin = True
-
+    # checking if header exists
+    auth_header = request.headers.get('Authorization')
+    if not check_auth(auth_header, username, password)
+        return authenticate()
+    if request.method == 'POST':
+        pass
     return render_template('register.html'), 200
 
