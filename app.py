@@ -16,11 +16,22 @@ users = existing_users_file(users_file)
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
 def home_page():
-    return render_template('main_page.html')
+    if not session:
+        return redirect(url_for('login_user')), 200
+    user = session.get('username')
+    user_role = session.get('role')
+
+    return render_template('main_page.html', context={'user': user, 'role':user_role}), 200
 
 @app.route('/blogs')
 def blogs_page():
     return render_template('blog_page.html')
+
+@app.route("/admin")
+def admin():
+    if session.get("role") != "admin":
+        return redirect(url_for("login_user"))
+    return "Welcome, Admin"
 
 
 @app.route('/login',  methods=['GET','POST'])
@@ -56,6 +67,6 @@ def register_user():
         if name == 'admin':
             users[name]['role'] = 'admin'
         save_users(users=users, file=users_file)
-        return redirect(url_for('login_user')), 200
+        return redirect(url_for('login_user'))
     return render_template('register.html'), 200
 
