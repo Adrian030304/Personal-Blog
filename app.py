@@ -13,15 +13,15 @@ users_file = 'users.json'
 users = existing_users_file(users_file)
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET'])
 def home_page():
     if not session:
         return redirect(url_for('login_user')), 200
     user = session.get('username')
     user_role = session.get('role')
-
-    return render_template('main_page.html', context={'user': user, 'role':user_role}), 200
+    context={'user': user, 'role':user_role}
+    return render_template('main_page.html', context=context), 200
 
 @app.route('/blogs')
 def blogs_page():
@@ -33,6 +33,10 @@ def admin():
         return redirect(url_for("login_user"))
     return "Welcome, Admin"
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.clear()
+    return redirect(url_for('login_user'))
 
 @app.route('/login',  methods=['GET','POST'])
 def login_user():
@@ -50,10 +54,6 @@ def login_user():
         else:
             return 'Invalid name/password', 400
     
-    # if username not in session:
-    #     session['username'] = username
-    #     session['password'] = generate_password_hash(password)
-    #     session['is_admin'] = False
     return render_template('login.html'), 200
 
 @app.route('/register', methods=['POST','GET'])
