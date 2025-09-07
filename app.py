@@ -2,6 +2,7 @@ import os, json
 from flask import Flask, request, render_template, session, redirect, url_for, Response
 from dotenv  import *
 from utils import existing_users_file, save_users
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
@@ -9,8 +10,8 @@ app.config.from_prefixed_env()
 secret_key = get_key('.env','FLASK_SECRET_KEY')
 
 users_file = 'users.json'
-users = existing_users_file()
-save_users(users=users, file=users_file)
+users = existing_users_file(users_file)
+
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
@@ -37,6 +38,12 @@ def login_user():
 @app.route('/register', methods=['POST','GET'])
 def register_user():
     if request.method == 'POST':
-
+        name, pwrd = request.form['username'], request.form['password']
+        if name in users:
+            return 'User already exists!'
+        users[name] = {'password': generate_password_hash(pwrd), 'role': 'guest'}
+        if name == 'admin':
+            users[name]['role'] = 'admin'
+        save_users(users=users, file=users_file)
     return render_template('register.html'), 200
 
