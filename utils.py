@@ -1,20 +1,13 @@
-from base64 import b64decode, b64encode
-from flask import Response
+import json, os
 
-def check_auth(auth_header, USERNAME, PASSWORD):
-    if not auth_header or not auth_header.startswith("Basic "):
-        return False
-    encoded = auth_header.split(" ", 1)[1]
-    try:
-        decoded = b64decode(encoded).decode("utf-8")
-    except Exception:
-        return False
-    username, password = decoded.split(":", 1)
-    return username == USERNAME and password == PASSWORD
+def existing_users_file(file):
+    if os.path.exists(file):
+        with open(file) as f:
+            users = json.load(f)
+    else:
+        users = {}
+    return users
 
-def authenticate():
-    return Response(
-        "Authentication required",
-        401,
-        {"WWW-Authenticate": 'Basic realm="Login Required"'}
-    )
+def save_users(users, file):
+    with open(file, 'w+') as save:
+        json.dump(users, save)

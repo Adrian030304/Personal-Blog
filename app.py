@@ -1,12 +1,16 @@
 import os, json
 from flask import Flask, request, render_template, session, redirect, url_for, Response
 from dotenv  import *
-from utils import check_auth, authenticate
+from utils import existing_users_file, save_users
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
 
 secret_key = get_key('.env','FLASK_SECRET_KEY')
+
+users_file = 'users.json'
+users = existing_users_file()
+save_users(users=users, file=users_file)
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
@@ -32,12 +36,7 @@ def login_user():
 
 @app.route('/register', methods=['POST','GET'])
 def register_user():
-
-    # checking if header exists
-    auth_header = request.headers.get('Authorization')
-    if not check_auth(auth_header, username, password)
-        return authenticate()
     if request.method == 'POST':
-        pass
+
     return render_template('register.html'), 200
 
