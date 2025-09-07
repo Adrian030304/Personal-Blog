@@ -25,9 +25,19 @@ def blogs_page():
 
 @app.route('/login',  methods=['GET','POST'])
 def login_user():
-    # username = request.form['username']
-    # password = request.form['password']
 
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if username not in users:
+            return 'User does not exist!' , 403
+        if username in users and (check_password_hash(users[username]['password'], password)):
+            session['username'] = username
+            session['role'] = users[username]['role']
+            return redirect(url_for('home_page'))
+        else:
+            return 'Invalid name/password', 400
     
     # if username not in session:
     #     session['username'] = username
@@ -37,6 +47,7 @@ def login_user():
 
 @app.route('/register', methods=['POST','GET'])
 def register_user():
+
     if request.method == 'POST':
         name, pwrd = request.form['username'], request.form['password']
         if name in users:
@@ -45,5 +56,6 @@ def register_user():
         if name == 'admin':
             users[name]['role'] = 'admin'
         save_users(users=users, file=users_file)
+        return redirect(url_for('login_user')), 200
     return render_template('register.html'), 200
 
