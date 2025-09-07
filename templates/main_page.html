@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'main_page.css') }}">
+</head>
+<body>
+    <div id="header">
+        <div class="section">
+            <p class="blog-page">Personal Blog</p>
+        </div>
+    </div>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+    <footer class="footer">
+        <p>&copy; 2025 Your Blog. All rights reserved.</p>
+        <nav>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+        </nav>
+        <form action="/subscribe" method="post" class="subscribe">
+            <label for="email">Subscribe:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit">Join</button>
+        </form>
+    </footer>
+</body>
+</html>
