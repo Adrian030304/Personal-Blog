@@ -3,10 +3,10 @@
     <div class="article">
         <h2>New Article</h2>
         <form method="POST">
-            <input type="text" placeholder="Article Title"  name="article_title" id="article-title">
-            <input type="date" placeholder="Publishing Date" name="publishing_date" id="article-date">
-            <textarea placeholder="Content" name="article_content" id="article-content" cols="30" rows="10" ></textarea>
-            <input type="submit" value="Publish">
+            <input class="form-input" type="text" placeholder="Article Title"  name="article_title" id="article-title" minlength="3" maxlength="30" required >
+            <input class="form-input" type="date" placeholder="Publishing Date" name="publishing_date" id="article-date" required>
+            <textarea placeholder="Content" name="article_content" id="article-content" cols="30" rows="10" minlength="10" maxlength="600" required></textarea>
+            <input class="form-button" type="submit" value="Publish">
         </form>
     </div>
     

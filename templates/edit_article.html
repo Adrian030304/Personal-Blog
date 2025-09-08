@@ -3,10 +3,10 @@
     <div class="article">
         <h2>Edit Article</h2>
         <form method="POST">
-            <input type="text" placeholder="Article Title"  name="article_title" id="article-title" value="{{art['title']}}">
-            <input type="date" placeholder="Publishing Date" name="publishing_date" id="article-date" value="{{art['date']}}">
+            <input class="form-input" type="text" placeholder="Article Title"  name="article_title" id="article-title" value="{{art['title']}}">
+            <input class="form-input" type="date" placeholder="Publishing Date" name="publishing_date" id="article-date" value="{{art['date']}}">
             <textarea placeholder="Content" name="article_content" id="article-content" cols="30" rows="10" >{{art['content']}}</textarea>
-            <input type="submit" value="Edit">
+            <input class="form-button" type="submit" value="Edit">
         </form>
     </div>
     

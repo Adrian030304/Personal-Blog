@@ -1,12 +1,14 @@
 {% extends "main_page.html" %}
 {% block content %}
-    <span>This is the login page</span>
-    <form method="POST">
-        <input type="text" name="username" id="user_login">
-        <input type="text" name="password" id="pass_login">
-        <input type="submit" value="Login">
-    </form>
-    <p>If you don't have an account, you can create one here: 
-        <a href="{{url_for('register_user')}}">Sign up</a>
-    </p>
+    <div class="login">
+        <span>This is the login page</span>
+        <form method="POST">
+            <input class="form-input" type="text" name="username" id="user_login" placeholder="Username" minlength="3" maxlength="30" required>
+            <input class="form-input" type="password" name="password" id="pass_login" placeholder="Password" minlength="5" maxlength="60" required>
+            <input class="form-button" type="submit" value="Login">
+        </form>
+        <p>If you don't have an account, you can create one here: 
+            <a style="text-decoration: underline;" href="{{url_for('register_user')}}">Sign up</a>
+        </p>
+    </div>
 {% endblock %}

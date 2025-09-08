@@ -78,6 +78,7 @@ body{
     margin-right: 25%;
     margin-left: 25%;
     background-color: honeydew;
+    min-width: fit-content;
 }
 
 .article-post {
@@ -101,6 +102,7 @@ body{
     height: auto;
     min-height: max-content;
     border: 1px solid black;
+    min-width: fit-content;
 }
 
 .section {
@@ -144,11 +146,15 @@ body{
 }
 
 .home-content {
-  justify-content: center;
+ justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
   flex: 1;
+  overflow-wrap: break-word;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .footer {

@@ -1,12 +1,14 @@
 {% extends "main_page.html" %}
 {% block content %}
-    <span>This is the registration page</span>
-    <form method="POST">
-        <input type="text" name="username" id="user_registration">
-        <input type="text" name="password" id="pass_registration">
-        <input type="submit" value="Register">
-    </form>
-    <p>If you have an account you may login here: 
-        <a href="{{url_for('login_user')}}">Login</a>
-    </p>
+    <div class="register">
+        <span>This is the registration page</span>
+        <form method="POST">
+            <input class="form-input" type="text" name="username" id="user_registration" placeholder="Username" minlength="3" maxlength="30" required>
+            <input class="form-input" type="password" name="password" id="pass_registration" placeholder="Password" minlength="5" maxlength="60" required>
+            <input class="form-button" type="submit" value="Register">
+        </form>
+        <p>If you have an account you may login here: 
+            <a style="text-decoration: underline;" href="{{url_for('login_user')}}">Login</a>
+        </p>
+    </div>
 {% endblock %}
