@@ -154,11 +154,13 @@ def article_edit(slug):
 @app.route('/delete/<slug>', methods=['POST','GET'])
 def article_delete(slug):
     article = os.path.join(save_path, f"{slug}.json")
-    print(article)
     if request.method == 'POST':
-        os.remove(article)
-        return redirect(url_for('dashboard')), 302
-    return render_template('delete_article.html', user=session.get('username'), user_role=session.get('role'), slug=article)
+        if os.path.exists(article) and os.path.isfile(article):
+            os.remove(article)
+            return redirect(url_for('dashboard')), 302
+        else:
+            return f"Article not found", 404
+    return render_template('delete_article.html', user=session.get('username'), user_role=session.get('role')), 200
 
 
 
