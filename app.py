@@ -10,6 +10,7 @@ app.secret_key =  get_key('.env','FLASK_SECRET_KEY')
 
 os.makedirs('articles', exist_ok=True)
 save_path = os.path.abspath('./articles')
+save_files = os.listdir(save_path)
 
 users_file = 'users.json'
 users = existing_users_file(users_file)
@@ -37,7 +38,12 @@ def blogs_page():
 def dashboard():
     if 'username' not in session:
         return redirect(url_for('login_user')), 302
-    return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'))
+    # checking if there are files in the directory
+    if not len(os.listdir(save_path)):
+        file_check = False
+    else:
+        file_check = True
+    return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'), file_check=file_check)
 
 @app.route('/admin/create_article', methods=['GET','POST'])
 def create_article():
@@ -49,9 +55,9 @@ def create_article():
         save_file = os.path.join(save_path, f'{title}_{publishing}.json' )
         with open(save_file, 'w', encoding='utf-8') as json_file:
             json.dump(
-                {'title': title,
+                {'title': sanitize_title(title),
                  'content': content,
-                 'date': publishing
+                 'date': sanitize_date(publishing)
                 }
             , json_file, indent=2)
         return redirect(url_for('dashboard')), 302
