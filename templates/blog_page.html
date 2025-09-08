@@ -15,8 +15,8 @@
                     <span class="article-title"><a href="{{url_for('article_details', slug=art['slug'])}}">{{art['title']}}</a></span>
                     <span class="article-date">{{art['date']}}</span>
                     {% if user_role == 'admin' %}
-                    <span class="edit-article"><a href="">Edit</a></span>
-                    <span class="delete-article">Delete</span>
+                    <span class="edit-article"><a href="{{url_for('article_edit', slug=art['slug'])}}">Edit</a></span>
+                    <span class="delete-article"><a href="{{url_for('article_delete', slug=art['slug'])}}">Delete</a></span>
                     {% endif %}
                 </div>
             {% endfor %}

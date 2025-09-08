@@ -151,10 +151,14 @@ def article_edit(slug):
                            art=b
                            )
 
-@app.route('delete/<slug>')
-def delete_article(slug):
+@app.route('/delete/<slug>', methods=['POST','GET'])
+def article_delete(slug):
     article = os.path.join(save_path, f"{slug}.json")
-    return render_template('delete_article.html', user=session.get('username'), user_role=session.get('role'))
+    print(article)
+    if request.method == 'POST':
+        os.remove(article)
+        return redirect(url_for('dashboard')), 302
+    return render_template('delete_article.html', user=session.get('username'), user_role=session.get('role'), slug=article)
 
 
 
