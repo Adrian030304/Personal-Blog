@@ -14,7 +14,7 @@
                     <p class="blog-page">Personal Blog</p>
                     <a href="{{ url_for('home_page') }}" class="blog-page">Home</a>
                     {% if user_role != 'admin' %}
-                    <a href="{{ url_for('blogs_page')}}" class="blog-page">Articles</a>
+                    <a href="{{ url_for('dashboard')}}" class="blog-page">Articles</a>
                     {% else %}
                     <a href="{{ url_for('dashboard')}}" class="blog-page">Dashboard</a>
                     {% endif %}
