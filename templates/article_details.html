@@ -1,0 +1,15 @@
+{% extends "main_page.html" %}
+{% block content %}
+    <div class="details-container">
+        <div class="personal-article">
+        <h1>{{art['title']}}</h1>
+        <h2>{{art['date']}}</h2>
+        <div class="art-content">
+            <p>
+                {{art['content']}}
+            </p>
+        </div>
+    </div>
+
+    </div>
+{% endblock %}
