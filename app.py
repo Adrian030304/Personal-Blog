@@ -10,7 +10,7 @@ app.secret_key =  get_key('.env','FLASK_SECRET_KEY')
 
 os.makedirs('articles', exist_ok=True)
 save_path = os.path.abspath('./articles')
-save_files = os.listdir(save_path)
+
 
 users_file = 'users.json'
 users = existing_users_file(users_file)
@@ -29,21 +29,27 @@ def admin():
     return "Welcome, Admin"
     
 @app.route('/blogs')
-def blogs_page():
-    if 'username' not in session:
-        return redirect(url_for('login_user')), 302
-    return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'))
-
 @app.route('/admin/dashboard')
 def dashboard():
     if 'username' not in session:
         return redirect(url_for('login_user')), 302
     # checking if there are files in the directory
-    if not len(os.listdir(save_path)):
-        file_check = False
-    else:
-        file_check = True
-    return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'), file_check=file_check)
+    articles = []
+    try:
+        for file_name in os.listdir(save_path):
+            file_path = os.path.join(save_path,file_name)
+            with open(file_path, 'r', encoding='utf-8') as article_file:
+                article = json.load(article_file)
+                articles.append(article)
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        articles = []
+
+    return render_template(
+        'blog_page.html', 
+        user=session.get('username'), 
+        user_role=session.get('role'), 
+        articles=articles)
 
 @app.route('/admin/create_article', methods=['GET','POST'])
 def create_article():
