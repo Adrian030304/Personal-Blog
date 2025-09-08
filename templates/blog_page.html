@@ -3,7 +3,7 @@
     <div class="personal-blog">
         {% if user_role == 'admin' %}
         <h1>Admin Dashboard</h1>
-        <a href="{{ url_for('create_article') }}">Create Article</a>
+        <a id="create-article-btn" href="{{ url_for('create_article') }}">Create Article</a>
         {% else %}
             <h1>Blogs</h1>
         {% endif %}
@@ -22,7 +22,9 @@
             {% endfor %}
         </div>
     {% else %}
-        <div id="warning-message">There are no articles currently available.</div>
+        <div class="warning-msg">
+            <div id="warning">There are no articles currently available.</div>
+        </div>
     {% endif %}
     
 {% endblock %}
