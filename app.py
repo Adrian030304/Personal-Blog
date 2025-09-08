@@ -116,12 +116,26 @@ def article_details(slug):
                            art=b
                            )
 
-@app.route('/edit/<slug>')
-def article_details(slug):
+@app.route('/edit/<slug>', methods=['POST', 'GET'])
+def article_edit(slug):
     article = os.path.join(save_path, f"{slug}.json")
     b = {}
+    if request.method == 'POST':
+        title = request.form['article_title']
+        date = request.form['publishing_date']
+        content = request.form['article_content']
+        with open(article, 'w', encoding='utf-8') as json_file:
+            json.dump(
+                {'title': title,
+                 'content': content,
+                 'date': sanitize_date(date),
+                 'slug': slug
+                }
+            , json_file, indent=2)
+
+        return redirect(url_for('dashboard')), 302
     try:
-        with open(article, 'w+', encoding='utf-8') as file:
+        with open(article, 'r', encoding='utf-8') as file:
             blog = json.load(file)
             b = {
                 'title': blog['title'],
@@ -130,7 +144,7 @@ def article_details(slug):
             }
     except FileNotFoundError:
         return f"Article not found", 404
-    return render_template('article_details.html', 
+    return render_template('edit_article.html', 
                            user=session.get('username'), 
                            user_role=session.get('role'),
                            art=b
