@@ -9,13 +9,21 @@
 <body>
     <div id="header">
         <div class="section">
-            <p class="blog-page">Personal Blog</p>
             {% if session %}
-            <p class="blog-page">Home</p>
-            <p class="blog-page">Articles</p>
-            <p class="blog-page">User:<span id="usr-lg">{{user}}</span></p>
-            <p class="blog-page">Role:<span id="role-lg">{{user_role}}</span></p>
-            <a href="{{ url_for('logout') }}" class="blog-page">Log out</a>
+                <div class="nav-section">
+                    <p class="blog-page">Personal Blog</p>
+                    <a href="{{ url_for('home_page') }}" class="blog-page">Home</a>
+                    <a href="{{ url_for('blogs_page')}}" class="blog-page">Articles</a>
+                </div>
+                <div class="nav-section">
+                    <p class="blog-page">User:<span id="usr-lg">{{user}}</span></p>
+                    <p class="blog-page">Role:<span id="role-lg">{{user_role}}</span></p>
+                    <a href="{{ url_for('logout') }}" class="blog-page">Log out</a>
+                </div>
+            {% else %}
+                <div class="nav-section">
+                    <p class="blog-page">Personal Blog</p>
+                </div>
             {% endif %}
         </div>
     </div>
