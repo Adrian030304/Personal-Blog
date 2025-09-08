@@ -1,25 +1,24 @@
 import os, json
 from flask import Flask, request, render_template, session, redirect, url_for, Response
 from dotenv  import *
-from utils import existing_users_file, save_users
+from utils import existing_users_file, save_users, sanitize_date, sanitize_title
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
 app.secret_key =  get_key('.env','FLASK_SECRET_KEY')
 
+os.makedirs('articles', exist_ok=True)
+save_path = os.path.abspath('./articles')
+
 users_file = 'users.json'
 users = existing_users_file(users_file)
-
-# if not os.path.exists('articles'):
-#     os.mkdir('articles')
-
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET'])
 def home_page():
     if 'username' not in session:
-        return redirect(url_for('login_user')), 301
+        return redirect(url_for('login_user')), 302
     return render_template('home_page.html', user=session.get('username'), user_role=session.get('role')), 200
 
 @app.route("/admin")
@@ -31,18 +30,32 @@ def admin():
 @app.route('/blogs')
 def blogs_page():
     if 'username' not in session:
-        return redirect(url_for('login_user')), 301
+        return redirect(url_for('login_user')), 302
     return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'))
 
 @app.route('/admin/dashboard')
 def dashboard():
     if 'username' not in session:
-        return redirect(url_for('login_user')), 301
+        return redirect(url_for('login_user')), 302
     return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'))
 
-@app.route('/create_article', methods=['GET','POST'])
+@app.route('/admin/create_article', methods=['GET','POST'])
 def create_article():
-    pass
+    if request.method == 'POST':
+        title = request.form['article_title']
+        publishing = request.form['publishing_date']
+        content = request.form['article_content']
+
+        save_file = os.path.join(save_path, f'{title}_{publishing}.json' )
+        with open(save_file, 'w', encoding='utf-8') as json_file:
+            json.dump(
+                {'title': title,
+                 'content': content,
+                 'date': publishing
+                }
+            , json_file, indent=2)
+        return redirect(url_for('dashboard')), 302
+    return render_template('create_article.html', user=session.get('username'), user_role=session.get('role')), 200
 
 @app.route('/logout', methods=['GET'])
 def logout():
