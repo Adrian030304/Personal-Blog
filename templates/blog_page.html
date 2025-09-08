@@ -8,4 +8,21 @@
             <h1>Blogs</h1>
         {% endif %}
     </div>
+    {% if articles %}
+        <div class="articles">
+            {% for art in articles %}
+                <div class="article-post">
+                    <span class="article-title"><a href="">{{art['title']}}</a></span>
+                    <span class="article-date">{{art['date']}}</span>
+                    {% if user_role == 'admin' %}
+                    <span class="edit-article">Edit</span>
+                    <span class="delete-article">Delete</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div id="warning-message">There are no articles currently available.</div>
+    {% endif %}
+    
 {% endblock %}
