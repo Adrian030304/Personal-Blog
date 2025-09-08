@@ -22,6 +22,17 @@ def home_page():
         return redirect(url_for('login_user')), 301
     return render_template('home_page.html', user=session.get('username'), user_role=session.get('role')), 200
 
+@app.route("/admin")
+def admin():
+    if session.get("role") != "admin":
+        return redirect(url_for("login_user"))
+    return "Welcome, Admin"
+
+@app.route('/blogs')
+def blogs_page():
+    if 'username' not in session:
+        return redirect(url_for('login_user')), 301
+    
 @app.route('/blogs')
 def blogs_page():
     if 'username' not in session:
@@ -29,15 +40,15 @@ def blogs_page():
     
     return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'))
 
+@app.route('/admin/dashboard')
+def dashboard():
+    if 'username' not in session:
+        return redirect(url_for('login_user')), 301
+    return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'))
+
 @app.route('/create_blog', methods=['GET','POST'])
-
-
-
-@app.route("/admin")
-def admin():
-    if session.get("role") != "admin":
-        return redirect(url_for("login_user"))
-    return "Welcome, Admin"
+def create_article():
+    pass
 
 @app.route('/logout', methods=['GET'])
 def logout():
