@@ -6,8 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
-
-secret_key = get_key('.env','FLASK_SECRET_KEY')
+app.secret_key =  get_key('.env','FLASK_SECRET_KEY')
 
 users_file = 'users.json'
 users = existing_users_file(users_file)
@@ -19,15 +18,16 @@ users = existing_users_file(users_file)
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET'])
 def home_page():
-    if not session:
-        return redirect(url_for('login_user')), 200
-    user = session.get('username')
-    user_role = session.get('role')
-    return render_template('main_page.html', user=user, user_role=user_role), 200
+    if 'username' not in session:
+        return redirect(url_for('login_user')), 301
+    return render_template('home_page.html', user=session.get('username'), user_role=session.get('role')), 200
 
 @app.route('/blogs')
 def blogs_page():
-    return render_template('blog_page.html')
+    if 'username' not in session:
+        return redirect(url_for('login_user')), 301
+    
+    return render_template('blog_page.html', user=session.get('username'), user_role=session.get('role'))
 
 @app.route('/create_blog', methods=['GET','POST'])
 
