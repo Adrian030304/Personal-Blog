@@ -5,16 +5,26 @@
     font-family: 'Arial', sans-serif;
 }
 
+body{
+    background-color:antiquewhite;
+
+}
+
 #content {
     min-height: 80vh;
-    background-color:antiquewhite;
     min-width: fit-content;
+}
+
+#content a[href]{
+  text-decoration: none;
+  color: black;
 }
 
 .personal-blog{
     display: flex;
     align-items: center;
     justify-content: space-around;
+    padding: 20px;
 }
 
 .article{
@@ -26,12 +36,41 @@
 
 }
 
+.article-title {
+    text-wrap: auto;
+    max-width: 350px;
+    display: inline-block;
+    overflow-wrap: break-word;
+    min-width: 350px;
+}
+
+.warning-msg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+
+#create-article-btn {
+    background-color: azure;
+    padding: 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    
+}
+
+#create-article-btn:hover {
+    background-color: rgb(184, 197, 197);
+}
+
 .article form{
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
     gap: 10px;
+    padding-bottom: 10px;
 }
 
 
@@ -52,7 +91,7 @@
 }
 
 .article-post > span:hover {
-  background-color: rgb(194, 173, 146);
+  background-color: rgb(194, 189, 146);
 }
 
 
