@@ -48,3 +48,8 @@ A simple personal blog built with Python and Flask. You can create, edit, and de
 ### License
 
 This project is licensed under the MIT License.
+
+
+
+
+This project was done following the challenge on Roadmap: https://roadmap.sh/projects/personal-blog
