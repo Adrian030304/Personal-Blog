@@ -1,5 +1,6 @@
 import json, os, re
 
+
 def existing_users_file(file):
     if os.path.exists(file):
         with open(file) as f:
@@ -23,3 +24,13 @@ def slugify(title):
     slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
     return slug
 
+# def unique_slug(title, articles_dir):
+#     base_slug = slugify(title)
+#     slug = base_slug
+
+#     existing_slugs = [art['slug'] for art in load_articles()]
+    
+#     counter = 1
+#     while slug in existing_slugs:
+#         slug = f'{base_slug}-{counter}'
+#         counter += 1

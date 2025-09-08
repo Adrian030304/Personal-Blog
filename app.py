@@ -1,8 +1,9 @@
 import os, json
 from datetime import datetime
-from flask import Flask, request, render_template, session, redirect, url_for, Response
+from random import randint
+from flask import Flask, request, render_template, session, redirect, url_for
 from dotenv  import *
-from utils import existing_users_file, save_users, sanitize_date, sanitize_title
+from utils import existing_users_file, save_users, sanitize_date, sanitize_title, slugify
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
@@ -81,17 +82,31 @@ def create_article():
         title = request.form['article_title']
         publishing = request.form['publishing_date']
         content = request.form['article_content']
+        slug = f"{slugify(sanitize_title(title))}_{randint(100,999)}_{publishing}"
 
-        save_file = os.path.join(save_path, f'{title}_{publishing}.json' )
+        save_file = os.path.join(save_path, f'{slug}.json' )
         with open(save_file, 'w', encoding='utf-8') as json_file:
             json.dump(
-                {'title': sanitize_title(title),
+                {'title': title,
                  'content': content,
-                 'date': sanitize_date(publishing)
+                 'date': sanitize_date(publishing),
+                 'slug': slug
                 }
             , json_file, indent=2)
         return redirect(url_for('dashboard')), 302
     return render_template('create_article.html', user=session.get('username'), user_role=session.get('role')), 200
+
+@app.route('/article/<article_title>')
+def article_details(article_title):
+    article = os.path.join(save_path, f"{article_title}.json")
+    print(article)
+    try:
+        with open(article, 'r', encoding='utf-8') as file:
+            blog = json.load(file)
+            print(blog)
+    except FileNotFoundError as error:
+        return f"Article not found", 404
+    return render_template('article_details.html', user=session.get('username'), user_role=session.get('role'),article_title=article_title)
 
 @app.route('/logout', methods=['GET'])
 def logout():
