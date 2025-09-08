@@ -4,6 +4,9 @@
     <form method="POST">
         <input type="text" name="username" id="user_login">
         <input type="text" name="password" id="pass_login">
-        <input type="submit" value="login">
+        <input type="submit" value="Login">
     </form>
+    <p>If you don't have an account you may create one here: 
+        <a href="{{url_for('register_user')}}">Sign up</a>
+    </p>
 {% endblock %}

@@ -12,6 +12,9 @@ secret_key = get_key('.env','FLASK_SECRET_KEY')
 users_file = 'users.json'
 users = existing_users_file(users_file)
 
+# if not os.path.exists('articles'):
+#     os.mkdir('articles')
+
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET'])
@@ -20,11 +23,15 @@ def home_page():
         return redirect(url_for('login_user')), 200
     user = session.get('username')
     user_role = session.get('role')
-    return render_template('main_page.html', user, user_role), 200
+    return render_template('main_page.html', user=user, user_role=user_role), 200
 
 @app.route('/blogs')
 def blogs_page():
     return render_template('blog_page.html')
+
+@app.route('/create_blog', methods=['GET','POST'])
+
+
 
 @app.route("/admin")
 def admin():
@@ -66,6 +73,8 @@ def register_user():
         if name == 'admin':
             users[name]['role'] = 'admin'
         save_users(users=users, file=users_file)
+
         return redirect(url_for('login_user'))
+    
     return render_template('register.html'), 200
 
