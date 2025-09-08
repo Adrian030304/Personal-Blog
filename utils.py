@@ -18,3 +18,8 @@ def sanitize_title(title):
 def sanitize_date(date):
     safe_date = re.sub(r'[^0-9]', '-', date)
     return safe_date
+
+def slugify(title):
+    slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+    return slug
+
