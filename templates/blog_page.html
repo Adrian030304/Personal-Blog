@@ -1,4 +1,10 @@
 {% extends "main_page.html" %}
 {% block content %}
+    {% if user_role == 'admin' %}
+        <h1>Admin Dashboard</h1>
+        <a href="{{ url_for('create_article') }}">Create Article</a>
+    {% else %}
+        <h1>Blogs</h1>
+    {% endif %}
 
 {% endblock %}
