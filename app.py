@@ -96,17 +96,45 @@ def create_article():
         return redirect(url_for('dashboard')), 302
     return render_template('create_article.html', user=session.get('username'), user_role=session.get('role')), 200
 
-@app.route('/article/<article_title>')
-def article_details(article_title):
-    article = os.path.join(save_path, f"{article_title}.json")
-    print(article)
+@app.route('/article/<slug>')
+def article_details(slug):
+    article = os.path.join(save_path, f"{slug}.json")
+    b = {}
     try:
         with open(article, 'r', encoding='utf-8') as file:
             blog = json.load(file)
-            print(blog)
-    except FileNotFoundError as error:
+            b = {
+                'title': blog['title'],
+                'content': blog['content'],
+                'date': blog['date']
+            }
+    except FileNotFoundError:
         return f"Article not found", 404
-    return render_template('article_details.html', user=session.get('username'), user_role=session.get('role'),article_title=article_title)
+    return render_template('article_details.html', 
+                           user=session.get('username'), 
+                           user_role=session.get('role'),
+                           art=b
+                           )
+
+@app.route('/edit/<slug>')
+def article_details(slug):
+    article = os.path.join(save_path, f"{slug}.json")
+    b = {}
+    try:
+        with open(article, 'w+', encoding='utf-8') as file:
+            blog = json.load(file)
+            b = {
+                'title': blog['title'],
+                'content': blog['content'],
+                'date': blog['date']
+            }
+    except FileNotFoundError:
+        return f"Article not found", 404
+    return render_template('article_details.html', 
+                           user=session.get('username'), 
+                           user_role=session.get('role'),
+                           art=b
+                           )
 
 @app.route('/logout', methods=['GET'])
 def logout():
