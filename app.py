@@ -1,4 +1,5 @@
 import os, json
+from datetime import datetime
 from flask import Flask, request, render_template, session, redirect, url_for, Response
 from dotenv  import *
 from utils import existing_users_file, save_users, sanitize_date, sanitize_title
@@ -43,7 +44,7 @@ def load_articles():
             except FileNotFoundError as e:
                 print(f"Error: {e}")
                 continue
-    return articles
+    return sorted(articles,key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'), reverse=True)
 
 
 @app.route('/blogs')
