@@ -135,15 +135,18 @@ def article_edit(slug):
                 }, json_file, indent=2)
 
         return redirect(url_for('dashboard')), 302
-    try:
-        with open(article, 'r', encoding='utf-8') as file:
-            blog = json.load(file)
-            b = {
-                'title': blog['title'],
-                'content': blog['content'],
-                'date': blog['date']}
-    except FileNotFoundError:
-        return f"Article not found", 404
+    if os.path.exists(article) and os.path.isfile(article):
+        try:
+            with open(article, 'r', encoding='utf-8') as file:
+                blog = json.load(file)
+                b = {
+                    'title': blog['title'],
+                    'content': blog['content'],
+                    'date': blog['date']}
+        except FileNotFoundError:
+            return f"Article not found", 404
+        except json.JSONDecodeError:
+            return f"Article file is empty or corrupted", 400
     
     return render_template('edit_article.html', 
                            user=session.get('username'), 
