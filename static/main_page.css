@@ -7,6 +7,51 @@
 #content {
     height: 80vh;
     background-color:antiquewhite;
+    min-width: fit-content;
+}
+
+.personal-blog{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.article{
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.article form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+
+.articles {
+    margin-right: 25%;
+    margin-left: 25%;
+    background-color: honeydew;
+}
+
+.article-post {
+    justify-content: space-between;
+    display: flex;
+    font-size: 1.5rem;
+}
+
+.article-post > span {
+  padding: 5px 10px;
+}
+
+.article-post > span:hover {
+  background-color: rgb(194, 173, 146);
 }
 
 
