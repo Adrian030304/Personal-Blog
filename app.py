@@ -120,7 +120,7 @@ def article_details(slug):
 def article_edit(slug):
     article = os.path.join(save_path, f"{slug}.json")
     b = {}
-    
+
     if request.method == 'POST':
         title = request.form['article_title']
         date = request.form['publishing_date']
@@ -150,6 +150,13 @@ def article_edit(slug):
                            user_role=session.get('role'),
                            art=b
                            )
+
+@app.route('delete/<slug>')
+def delete_article(slug):
+    article = os.path.join(save_path, f"{slug}.json")
+    return render_template('delete_article.html', user=session.get('username'), user_role=session.get('role'))
+
+
 
 @app.route('/logout', methods=['GET'])
 def logout():
