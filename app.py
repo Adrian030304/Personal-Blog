@@ -27,29 +27,52 @@ def admin():
     if session.get("role") != "admin":
         return redirect(url_for("login_user"))
     return "Welcome, Admin"
-    
+
+
+def load_articles():
+    # checking if there are files in the directory
+    os.makedirs(save_path, exist_ok=True)
+    articles = []
+    for file_name in os.listdir(save_path):
+        if file_name.endswith('.json'):
+            file_path = os.path.join(save_path,file_name)
+            try:
+                with open(file_path, 'r', encoding='utf-8') as article_file:
+                    article = json.load(article_file)
+                    articles.append(article)
+            except FileNotFoundError as e:
+                print(f"Error: {e}")
+                continue
+    return articles
+
+
 @app.route('/blogs')
+def blogs_page():
+    if 'username' not in session:
+        return redirect(url_for('login_user'))
+    articles = load_articles()
+    return render_template('blog_page.html', user=session.get('username'), user_role='guest', articles=articles)
+
 @app.route('/admin/dashboard')
+def admin_dashboard():
+    if 'username' not in session:
+        return redirect(url_for('login_user'))
+    if session.get('role') != 'admin':
+        return redirect(url_for('blogs_page'))
+
+    articles = load_articles()
+    return render_template('blog_page.html', user=session.get('username'), user_role='admin', articles=articles)
+
+@app.route('/dashboard')
 def dashboard():
     if 'username' not in session:
-        return redirect(url_for('login_user')), 302
-    # checking if there are files in the directory
-    articles = []
-    try:
-        for file_name in os.listdir(save_path):
-            file_path = os.path.join(save_path,file_name)
-            with open(file_path, 'r', encoding='utf-8') as article_file:
-                article = json.load(article_file)
-                articles.append(article)
-    except FileNotFoundError as e:
-        print(f"Error: {e}")
-        articles = []
+        return redirect(url_for('login_user'))
 
-    return render_template(
-        'blog_page.html', 
-        user=session.get('username'), 
-        user_role=session.get('role'), 
-        articles=articles)
+    role = session.get('role')
+    if role == 'admin':
+        return redirect(url_for('admin_dashboard'))
+    return redirect(url_for('blogs_page'))
+
 
 @app.route('/admin/create_article', methods=['GET','POST'])
 def create_article():
